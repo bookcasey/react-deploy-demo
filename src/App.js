@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, useHistory, Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Link, useHistory, Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 import './App.css';
 
 // TODO: review useRouteMatch
@@ -7,6 +7,8 @@ import './App.css';
 
 function Dinosaur() {
   const { id } = useParams();
+  const { path, url } = useRouteMatch();
+  console.log(useRouteMatch());
   const history = useHistory();
 
   useEffect(() => {
@@ -16,7 +18,22 @@ function Dinosaur() {
     }
   }, [id, history])
 
-  return <p>ID: {id}</p>
+  return (
+    <div>
+      <nav>
+        <Link to={url}>Dino home</Link> <br />
+        <Link to={`${url}/locations`}>Locations</Link>
+      </nav>
+      <Switch>
+        <Route path={`${path}/locations`}>
+          <p>Locations!</p>
+        </Route>
+        <Route>
+          <p>ID: {id}</p>
+        </Route>
+      </Switch>
+    </div>
+  )
 }
 
 function App() {
